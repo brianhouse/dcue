@@ -13,8 +13,8 @@ score = [   [1.0, 'A'],
 
 score = []
 delay = 5
-# for i in range(600):
-for i in range(10):
+for i in range(30):
+# for i in range(10):
     t = delay + (i / 2)
     score.append((t, 'n'))
 
