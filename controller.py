@@ -13,7 +13,7 @@ score = [   [1.0, 'A'],
 
 score = []
 delay = 5
-for i in range(30):
+for i in range(300):
 # for i in range(10):
     t = delay + (i / 2)
     score.append((t, 'n'))
@@ -26,6 +26,7 @@ sender.add_target('192.168.2.3', 5280)
 
 data = []
 t = util.timestamp(ms=True)
+t = time.time()
 for n in score:
     data.append(str(n[0] + t))
     data.append(n[1])

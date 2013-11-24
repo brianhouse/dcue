@@ -6,7 +6,7 @@ from housepy import osc, util, log
 
 def get_t():
     return util.timestamp(ms=True)
-scheduler = sched.scheduler(get_t, time.sleep)
+scheduler = sched.scheduler(time.time, time.sleep)
 
 class Player(threading.Thread):
 

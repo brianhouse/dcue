@@ -18,3 +18,10 @@ there is drift, but it seems to correct with new messages
 so can send in chunks
 
 drift very well might be caused with the playback? so thread that
+no, still happens. why?
+
+could have multiple schedulers, but potential thread issues with 3.2
+
+could it be timestamp?
+
+could try time.time()
