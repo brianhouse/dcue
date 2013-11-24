@@ -6,7 +6,7 @@ from housepy import osc, util, log
 
 def get_t():
     return util.timestamp(ms=True)
-scheduler = sched.scheduler(get_t)
+scheduler = sched.scheduler(get_t, time.sleep)
 
 def play(sound=None):    # should be threaded
     try:
