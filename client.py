@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import time, subprocess
+import time, subprocess, platform
 from collections import deque
 from housepy import osc, util, log
 
@@ -22,7 +22,10 @@ while True:
     while len(cues) and cues[0][0] < t:
         cue = cues.popleft()
         try:
-            subprocess.check_call("afplay left.wav", shell=True)    
+            if platform.system() == "Darwin":
+                subprocess.check_call("afplay left.wav", shell=True)    
+            elif platform.system() == "Linux":
+                subprocess.check_call("afplay left.wav", shell=True)    
         except Exception as e:
             log.error(log.exc(e))
         log.info("Executing %s" % util.datestring(cue[0], ms=True))

@@ -12,13 +12,13 @@ score = [   [1.0, 'A'],
 
 
 score = []
-delay = 0
+delay = 5
 for i in range(600):
     t = delay + (i / 2)
     score.append((t, 'n'))
 
 
-sender = osc.Sender(5280)
+sender = osc.Sender('192.168.2.2', 5280)
 
 data = []
 t = util.timestamp(ms=True)
