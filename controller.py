@@ -11,6 +11,11 @@ score = [   [1.0, 'A'],
             ]
 
 
+score = []
+delay = 0
+for i in range(600):
+    t = delay + (i / 2)
+    score.append((t, 'n'))
 
 
 sender = osc.Sender(5280)
