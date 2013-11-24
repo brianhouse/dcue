@@ -26,7 +26,6 @@ sender.add_target('192.168.2.3', 5280)
 
 data = []
 t = util.timestamp(ms=True)
-t = time.time()
 for n in score:
     data.append(str(n[0] + t))
     data.append(n[1])
