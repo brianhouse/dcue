@@ -22,6 +22,28 @@ no, still happens. why?
 
 could have multiple schedulers, but potential thread issues with 3.2
 
-could it be timestamp?
+could it be timestamp? no, no improvement with time.time.
 
-could try time.time()
+
+hmm. could send in realtime, but then we have network latency issues.
+
+
+is it getting worse the longer the pis run?
+how fast does ntp update?
+do we need an external clock?
+
+
+ok, and one guy missed a cue. hmm.
+
+//
+
+
+conclusions -- will need more communication to ensure cues happen and are healthy
+need to send cues in short chunks, which seem to work ok
+
+drift is just the lameless of time.sleep, I guess.
+
+
+
+
+
