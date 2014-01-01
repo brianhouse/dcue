@@ -21,9 +21,9 @@ class Player(threading.Thread):
             sound = self.queue.get()
             try:
                 if platform.system() == "Darwin":
-                    subprocess.check_call("afplay left.wav", shell=True)    
+                    subprocess.check_call("afplay snd/%s" % sound, shell=True)    
                 elif platform.system() == "Linux":
-                    subprocess.check_call("aplay left.wav", shell=True)    
+                    subprocess.check_call("aplay snd/%s" % sound, shell=True)    
             except Exception as e:
                 log.error(log.exc(e))
 
@@ -38,7 +38,7 @@ def message_handler(location, address, data):
     ts = [float(d) for i, d in enumerate(data) if i % 2 == 0]
     ns = [       d for i, d in enumerate(data) if i % 2 == 1]
     for cue in deque(zip(ts, ns)):
-        scheduler.enterabs(cue[0], 1, play, cue[1])
+        scheduler.enterabs(cue[0], 1, play, (cue[1],))
     scheduler.run()     # blocking, this has to be addressed somehow if new messages come in
 
 osc.Receiver(5280, message_handler, blocking=True)

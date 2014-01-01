@@ -9,3 +9,4 @@ data.db
 data/*
 run/*
 dev/*
+*.mp3

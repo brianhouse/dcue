@@ -4,20 +4,22 @@ import time
 from housepy import osc, util, log
 
 
-score = [   [1.0, 'A'],
-            [2.0, 'B'],
-            [3.0, 'C'],
-            [4.0, 'D']
-            ]
+# score = [   [1.0, 'A'],
+#             [2.0, 'B'],
+#             [3.0, 'C'],
+#             [4.0, 'D']
+#             ]
 
 
-score = []
-delay = 5
-for i in range(300):
-# for i in range(10):
-    t = delay + (i / 2)
-    score.append((t, 'n'))
+# score = []
+# delay = 5
+# for i in range(300):
+# # for i in range(10):
+#     t = delay + (i / 2)
+#     score.append((t, 'n'))
 
+
+score = [ [1.0, 'promenade.mp3'] ]
 
 sender = osc.Sender()
 sender.add_target('localhost', 5280)

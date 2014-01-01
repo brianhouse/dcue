@@ -18,7 +18,7 @@ there is drift, but it seems to correct with new messages
 so can send in chunks
 
 drift very well might be caused with the playback? so thread that
-no, still happens. why?
+no, still happens. why? [just multitasking in general. but why drift?]
 
 could have multiple schedulers, but potential thread issues with 3.2
 
@@ -42,6 +42,23 @@ conclusions -- will need more communication to ensure cues happen and are health
 need to send cues in short chunks, which seem to work ok
 
 drift is just the lameless of time.sleep, I guess.
+
+the thing is, it's not average error, it's cumulative error.
+wait, no. why is it cumulative? it should be checking for absolute times.
+so it could be that the clock drifts with processor use? unclear.
+
+interesting: http://stackoverflow.com/questions/15584928/fast-and-precise-python-repeating-timer
+
+/
+
+so just trigger audio. much better?
+
+
+
+/
+
+do this with measure markers to see really how bad we get
+fix microsecond implementation in util
 
 
 

@@ -8,7 +8,7 @@ def check_sleep(amount):
     time.sleep(amount)
     end = datetime.now()
     delta = end - start
-    return delta.seconds + delta.microseconds / 1000000.
+    return delta.seconds + (delta.microseconds / 1000000.)
 
-error = sum(abs(check_sleep(0.050) - 0.050) for i in range(100)) * 10
+error = sum(abs(check_sleep(0.010) - 0.010) for i in range(100)) * 10
 print("Average error is %0.2fms" % error)
