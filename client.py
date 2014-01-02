@@ -23,7 +23,8 @@ class Player(threading.Thread):
                 if platform.system() == "Darwin":
                     subprocess.check_call("afplay snd/%s" % sound, shell=True)    
                 elif platform.system() == "Linux":
-                    subprocess.check_call("aplay snd/%s" % sound, shell=True)    
+                    bn = "mpg123" if sound[-3:] == "mp3" else "aplay"
+                    subprocess.check_call("%s snd/%s" % (bn, sound), shell=True)
             except Exception as e:
                 log.error(log.exc(e))
 
