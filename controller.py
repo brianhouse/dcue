@@ -19,7 +19,7 @@ from housepy import osc, util, log
 #     score.append((t, 'n'))
 
 
-score = [ [1.0, 'promenade.mp3'] ]
+score = [ [1.0, 'train.mp3'] ]
 
 sender = osc.Sender()
 sender.add_target('localhost', 5280)

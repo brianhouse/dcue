@@ -49,18 +49,17 @@ so it could be that the clock drifts with processor use? unclear.
 
 interesting: http://stackoverflow.com/questions/15584928/fast-and-precise-python-repeating-timer
 
-/
-
-so just trigger audio. much better?
-
-
 
 /
 
 do this with measure markers to see really how bad we get
 fix microsecond implementation in util
 
+/
 
+so just trigger audio. much better?
 
+yeah. almost perfect.
 
+need interrupting audio, and health check. and that might do it.
 
