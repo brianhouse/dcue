@@ -45,7 +45,11 @@ class Syncbox:
             data.append(str(n[0] + t))
             data.append(n[1])
         log.debug(data)        
-        cls.sender.send('/client/cues', score)
+        cls.sender.send('/cue', score)
+
+    @classmethod
+    def stop(cls):
+        cls.sender.send('/stop')
 
     def __repr__(self):
         if self.alive:
@@ -88,10 +92,15 @@ Monitor()
 osc.Receiver(23232, Syncbox.message)
 
 
-# score = [ [1.0, 'train.mp3'] ]
+time.sleep(2)
 
-# sender.send('/client/cues', data)
+score = [ [1.0, 'train.mp3'] ]
 
+Syncbox.send(score)
+
+time.sleep(5)
+
+Syncbox.stop()
 
 
 while True:
