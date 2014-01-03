@@ -1,38 +1,98 @@
 #!/usr/bin/env python3
 
-import time
-from housepy import osc, util, log
+import time, threading
+from housepy import osc, util, log, config
+
+# naming scheme for syncboxes via physical location?
 
 
-# score = [   [1.0, 'A'],
-#             [2.0, 'B'],
-#             [3.0, 'C'],
-#             [4.0, 'D']
-#             ]
+class Syncbox:
+
+    boxes = []
+    sender = osc.Sender()
+
+    def __init__(self, name, ip):
+        self.name = name
+        self.ip = ip
+        self.alive = True
+        self.t = util.timestamp(ms=True)
+        Syncbox.sender.add_target(self.ip, 5280)
+
+    @classmethod
+    def get(cls, name, ip):
+        for syncbox in cls.boxes:
+            if syncbox.name == name:
+                syncbox.t = time.time()
+                return syncbox
+        syncbox = Syncbox(name, ip)
+        cls.boxes.append(syncbox)
+        cls.boxes.sort(key=lambda box: box.name)
+        return syncbox
+
+    @classmethod
+    def message(cls, ip, address, data):
+        if address == "/health":
+            syncbox = cls.get(data[0], ip)
+            syncbox.alive = True
+        else:
+            log.error("Unknown message %s from %s" % (address, location))
+
+    @classmethod
+    def send(cls, score):
+        data = []
+        t = util.timestamp(ms=True)
+        for n in score:
+            data.append(str(n[0] + t))
+            data.append(n[1])
+        log.debug(data)        
+        cls.sender.send('/client/cues', score)
+
+    def __repr__(self):
+        if self.alive:
+            return "%s(%s)" % (self.name, self.alive)
+        else:
+            return "%s(%f)*" % (self.name, time.time() - self.t)
 
 
-# score = []
-# delay = 5
-# for i in range(300):
-# # for i in range(10):
-#     t = delay + (i / 2)
-#     score.append((t, 'n'))
+class Expiry(threading.Thread):
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.daemon = True
+        self.start()
+
+    def run(self):
+        while True:
+            t = util.timestamp(ms=True)
+            for syncbox in Syncbox.boxes:
+                if t - syncbox.t > config['health_rate']:
+                    syncbox.alive = False
+            time.sleep(config['health_rate'])                    
+Expiry()
 
 
-score = [ [1.0, 'train.mp3'] ]
+class Monitor(threading.Thread):
 
-sender = osc.Sender()
-sender.add_target('localhost', 5280)
-sender.add_target('192.168.2.2', 5280)
-sender.add_target('192.168.2.3', 5280)
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.daemon = True
+        self.start()
 
-data = []
-t = util.timestamp(ms=True)
-for n in score:
-    data.append(str(n[0] + t))
-    data.append(n[1])
+    def run(self):
+        while True:
+            log.info(Syncbox.boxes)
+            time.sleep(config['health_rate'])
+Monitor()
 
-log.debug(data)
 
-sender.send('/client/cues', data)
+osc.Receiver(23232, Syncbox.message)
 
+
+# score = [ [1.0, 'train.mp3'] ]
+
+# sender.send('/client/cues', data)
+
+
+
+while True:
+    time.sleep(1)

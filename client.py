@@ -2,11 +2,26 @@
 
 import time, subprocess, platform, sched, threading, queue
 from collections import deque
-from housepy import osc, util, log
+from housepy import osc, util, log, config
 
 def get_t():
     return util.timestamp(ms=True)
 scheduler = sched.scheduler(get_t, time.sleep)
+
+class Health(threading.Thread):
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.daemon = True
+        self.sender = osc.Sender(config['central'], 23232)
+        self.start()        
+
+    def run(self):
+        while True:
+            self.sender.send("/health", config['name'])
+            time.sleep(config['health_rate'])
+
+health = Health()            
 
 class Player(threading.Thread):
 

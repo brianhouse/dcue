@@ -63,3 +63,4 @@ yeah. almost perfect.
 
 need interrupting audio, and health check. and that might do it.
 
+and test wifi!
