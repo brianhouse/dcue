@@ -1,10 +1,6 @@
-- need some way to trigger audio (keyboard? Pyglet?), separate processes?
-- need message redundancy?
 - test over wifi
-- osc verbosity
-
-cron ifup in case of wifi?
-
-
-
-need human procedures! what to do if things go down, etc.
+/
+- cron ifup in case of wifi?
+- need human procedures! what to do if things go down, etc.
+/
+- this really depends on ntp. raspis stay together, OS X on a different trip.

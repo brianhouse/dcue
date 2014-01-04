@@ -3,6 +3,8 @@
 import time, threading
 from housepy import osc, util, log, config
 
+osc.verbose = False
+
 class Syncbox:
 
     boxes = []
@@ -36,13 +38,14 @@ class Syncbox:
         data = []
         t = util.timestamp(ms=True)
         for cue in score:
-            log.debug(cue)
+            log.info("Sending %s" % (cue,))
             data.append(str(cue[0] + t))
             data.append(cue[1])
         cls.sender.send('/cue', score)
 
     @classmethod
     def stop(cls):
+        log.info("Sending stop")
         cls.sender.send('/stop')
 
     def __repr__(self):

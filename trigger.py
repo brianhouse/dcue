@@ -3,6 +3,6 @@
 from housepy import osc
 
 cue = [[1.0, 'train.mp3']]
-cue = 'stop'
+# cue = 'stop'
 
 osc.Sender(23232).send('/trigger', cue)
