@@ -44,7 +44,8 @@ class Player(threading.Thread):
     def stop(self):
         # this is not strictly thread-safe, is it?
         try:
-            self.process.terminate()
+            if self.process is not None:
+                self.process.terminate()
         except Exception as e:
             log.error(log.exc(e))
 
@@ -58,8 +59,9 @@ def message_handler(ip, address, data):
             ts = [float(d) for i, d in enumerate(data) if i % 2 == 0]
             ns = [       d for i, d in enumerate(data) if i % 2 == 1]
             for cue in deque(zip(ts, ns)):
-                timer = threading.Timer(cue[0], player.queue.put, (cue[1],)).start()
+                timer = threading.Timer(cue[0], player.queue.put, (cue[1],))
                 timers.append(timer)
+                timer.start()
         except Exception as e:
             log.error(log.exc(e))
     elif address == '/stop':

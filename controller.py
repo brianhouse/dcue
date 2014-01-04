@@ -92,7 +92,7 @@ Monitor()
 osc.Receiver(23232, Syncbox.message)
 
 
-time.sleep(2)
+time.sleep(6)
 
 score = [ [1.0, 'train.mp3'] ]
 
