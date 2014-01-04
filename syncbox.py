@@ -45,9 +45,10 @@ class Player(threading.Thread):
                 self.process = subprocess.Popen([bn, 'snd/%s' % sound])
                 health.queue.put('playing')
                 while True:
+                    log.debug(self.process.poll())
                     if self.process.poll() is None:
                         health.queue.put('playing')
-                        time.sleep(2)
+                        time.sleep(config['health_rate'])
                     else:
                         break                    
             except Exception as e:                
