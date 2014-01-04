@@ -4,6 +4,7 @@
 
 ### config
     sudo raspi-config
+make sure the time is EST
 
 ### network
     ifconfig

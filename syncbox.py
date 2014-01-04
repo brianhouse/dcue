@@ -9,7 +9,7 @@ class Health(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.daemon = True
-        self.sender = osc.Sender(config['central'], 23232)
+        self.sender = osc.Sender(config['controller'], 23232)
         self.start()        
 
     def run(self):
@@ -17,7 +17,7 @@ class Health(threading.Thread):
             self.sender.send("/health", config['name'])
             time.sleep(config['health_rate'])
 
-health = Health()            
+Health()            
 
 
 class Player(threading.Thread):

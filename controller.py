@@ -3,9 +3,6 @@
 import time, threading
 from housepy import osc, util, log, config
 
-# naming scheme for syncboxes via physical location?
-
-
 class Syncbox:
 
     boxes = []
@@ -31,20 +28,17 @@ class Syncbox:
 
     @classmethod
     def message(cls, ip, address, data):
-        if address == "/health":
-            syncbox = cls.get(data[0], ip)
-            syncbox.alive = True
-        else:
-            log.error("Unknown message %s from %s" % (address, location))
+        syncbox = cls.get(data[0], ip)
+        syncbox.alive = True
 
     @classmethod
     def send(cls, score):
         data = []
         t = util.timestamp(ms=True)
-        for n in score:
-            data.append(str(n[0] + t))
-            data.append(n[1])
-        log.debug(data)        
+        for cue in score:
+            log.debug(cue)
+            data.append(str(cue[0] + t))
+            data.append(cue[1])
         cls.sender.send('/cue', score)
 
     @classmethod
@@ -71,7 +65,8 @@ class Expiry(threading.Thread):
             for syncbox in Syncbox.boxes:
                 if t - syncbox.t > config['health_rate']:
                     syncbox.alive = False
-            time.sleep(config['health_rate'])                    
+            time.sleep(config['health_rate'])      
+
 Expiry()
 
 
@@ -86,22 +81,19 @@ class Monitor(threading.Thread):
         while True:
             log.info(Syncbox.boxes)
             time.sleep(config['health_rate'])
+
 Monitor()
 
 
-osc.Receiver(23232, Syncbox.message)
+def message_handler(ip, address, data):
+    if address == '/health':
+        Syncbox.message(ip, address, data)
+    elif address == '/trigger':
+        if data[0] == 'stop':
+            Syncbox.stop()
+        else:
+            Syncbox.send((data,))
+    else:
+        log.error("Unknown message %s from %s" % (address, location))
 
-
-time.sleep(6)
-
-score = [ [1.0, 'train.mp3'] ]
-
-Syncbox.send(score)
-
-time.sleep(5)
-
-Syncbox.stop()
-
-
-while True:
-    time.sleep(1)
+osc.Receiver(23232, message_handler, blocking=True)

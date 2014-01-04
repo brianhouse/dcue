@@ -1,6 +1,5 @@
 - need some way to trigger audio (keyboard? Pyglet?), separate processes?
-- need message redundancy
-- need interrupting audio
+- need message redundancy?
 - test over wifi
 - osc verbosity
 
