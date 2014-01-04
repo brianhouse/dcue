@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import time, subprocess, platform, threading, queue
+import time, subprocess, platform, threading, queue, os
 from collections import deque
 from housepy import osc, util, log, config
 
@@ -42,7 +42,8 @@ class Player(threading.Thread):
                     bn = "afplay"
                 elif platform.system() == "Linux":
                     bn = "mpg123" if sound[-3:] == "mp3" else "aplay"
-                self.process = subprocess.Popen([bn, 'snd/%s' % sound])
+                path = os.path.abspath(os.path.join(os.path.dirname(__file__), "snd", sound))
+                self.process = subprocess.Popen([bn, path])
                 health.queue.put('playing')
                 while True:
                     log.debug(self.process.poll())
