@@ -10,14 +10,19 @@ class Health(threading.Thread):
         threading.Thread.__init__(self)
         self.daemon = True
         self.sender = osc.Sender(config['controller'], 23232)
+        self.queue = queue.Queue()
         self.start()        
 
     def run(self):
         while True:
-            self.sender.send("/health", config['name'])
+            try:
+                status = self.queue.get_nowait()
+            except queue.Empty:
+                status = "ready"
+            self.sender.send("/health", [config['name'], status])
             time.sleep(config['health_rate'])
 
-Health()            
+health = Health()            
 
 
 class Player(threading.Thread):
@@ -38,16 +43,26 @@ class Player(threading.Thread):
                 elif platform.system() == "Linux":
                     bn = "mpg123" if sound[-3:] == "mp3" else "aplay"
                 self.process = subprocess.Popen([bn, 'snd/%s' % sound])
-            except Exception as e:
+                health.queue.put('playing')
+                while True:
+                    if self.process.poll() is None:
+                        health.queue.put('playing')
+                        time.sleep(2)
+                    else:
+                        break                    
+            except Exception as e:                
                 log.error(log.exc(e))
+                health.queue.put('playing failed')
 
     def stop(self):
         # this is not strictly thread-safe, is it?
         try:
             if self.process is not None:
                 self.process.terminate()
+                health.queue.put('stopped')
         except Exception as e:
             log.error(log.exc(e))
+            health.queue.put('stopped failed')
 
 player = Player()
 
@@ -60,10 +75,12 @@ def message_handler(ip, address, data):
             ns = [       d for i, d in enumerate(data) if i % 2 == 1]
             for cue in deque(zip(ts, ns)):
                 timer = threading.Timer(cue[0], player.queue.put, (cue[1],))
+                health.queue.put('loaded')
                 timers.append(timer)
                 timer.start()
         except Exception as e:
             log.error(log.exc(e))
+            health.queue.put('failed')
     elif address == '/stop':
         player.stop()
         for timer in timers:

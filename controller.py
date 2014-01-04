@@ -14,11 +14,12 @@ class Syncbox:
         self.name = name
         self.ip = ip
         self.alive = True
+        self.status = "ready"
         self.t = util.timestamp(ms=True)
         Syncbox.sender.add_target(self.ip, 5280)
 
     @classmethod
-    def get(cls, name, ip):
+    def find(cls, name, ip):
         for syncbox in cls.boxes:
             if syncbox.name == name:
                 if syncbox.ip != ip:
@@ -31,9 +32,13 @@ class Syncbox:
         return syncbox
 
     @classmethod
-    def message(cls, ip, address, data):
-        syncbox = cls.get(data[0], ip)
-        syncbox.alive = True
+    def on_message(cls, ip, address, data):
+        try:
+            syncbox = cls.find(data[0], ip)            
+            syncbox.alive = True
+            syncbox.status = data[1]
+        except Exception as e:
+            log.error(log.exc(e))
 
     @classmethod
     def send(cls, score):
@@ -52,7 +57,7 @@ class Syncbox:
 
     def __repr__(self):
         if self.alive:
-            return "%s(%s)" % (self.name, self.alive)
+            return "%s(%s)" % (self.name, self.status)
         else:
             return "%s(%f)*" % (self.name, time.time() - self.t)
 
@@ -92,7 +97,7 @@ Monitor()
 
 def message_handler(ip, address, data):
     if address == '/health':
-        Syncbox.message(ip, address, data)
+        Syncbox.on_message(ip, address, data)
     elif address == '/trigger':
         if data[0] == 'stop':
             Syncbox.stop()
