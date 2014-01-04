@@ -31,6 +31,13 @@ make sure the time is EST
 ### remote
     ssh pi@raspberrypi.local
 
+### hostname
+    sudo nano /etc/hosts
+    sudo nano /etc/hostname
+    sudo /etc/init.d/hostname.sh
+    sudo reboot
+change raspberrypi references to desired
+
 ### python
     sudo apt-get install python3-setuptools
     sudo easy_install3 pip

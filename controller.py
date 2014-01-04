@@ -21,6 +21,8 @@ class Syncbox:
     def get(cls, name, ip):
         for syncbox in cls.boxes:
             if syncbox.name == name:
+                if syncbox.ip != ip:
+                    syncbox.ip = ip
                 syncbox.t = time.time()
                 return syncbox
         syncbox = Syncbox(name, ip)
