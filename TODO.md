@@ -1,3 +1,6 @@
+does the waiting in the playback thread affect sync?
+
+
 - test over wifi
 - need playing confirm?
 - what other cues?
