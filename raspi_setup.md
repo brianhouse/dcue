@@ -48,6 +48,8 @@ change raspberrypi references to desired
 - everything plugged into switch, set to dchp
 - share internet connection
 
+### monit
+see monitrc.smp
 
 ### notes
 

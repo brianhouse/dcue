@@ -2,7 +2,9 @@
 
 import time, subprocess, platform, threading, queue, os
 from collections import deque
-from housepy import osc, util, log, config
+from housepy import osc, util, log, config, process
+
+process.secure_pid(os.path.abspath(os.path.join(os.path.dirname(__file__), "run")))
 
 class Health(threading.Thread):
 
