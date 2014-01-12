@@ -1,16 +1,15 @@
 ###
 #
-# chmod 0600 monitrc
-# sudo chown root monitrc
-# sudo cp monitrc /etc/monit/monitrc
+# chmod 0600 monitrc.smp
+# sudo chown root monitrc.smp
+# sudo cp monitrc.smp /etc/monit/monitrc
 # then set startup to 1 here: /etc/default/monit
-# sudo service monit start
+# sudo service monit restart
 # sudo monit status
 #
 # will run as root via init.d
 #
 # remember, _everything_ under monit needs absolute paths
-# ec2 doesnt need a webservice password; raspi does
 #
 ###
 
@@ -20,8 +19,7 @@ set daemon 120
 
 set httpd port 2812 and use address localhost   # configure monitoring webservice
   allow 0.0.0.0/0.0.0.0                        # Allow everything to connect  
-  pi:wavefarm
 
-check process main_raspi with pidfile /home/pi/dcue/run/syncbox.pid
+check process syncbox with pidfile /home/pi/dcue/run/syncbox.pid
   start program = "/usr/bin/python3 /home/pi/dcue/syncbox.py" 
   stop program = "/bin/pwd"

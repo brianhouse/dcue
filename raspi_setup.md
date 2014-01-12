@@ -49,6 +49,7 @@ change raspberrypi references to desired
 - share internet connection
 
 ### monit
+    sudo apt-get install monit
 see monitrc.smp
 
 ### notes
