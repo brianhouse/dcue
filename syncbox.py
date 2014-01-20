@@ -6,6 +6,8 @@ from housepy import osc, util, log, config, process
 
 process.secure_pid(os.path.abspath(os.path.join(os.path.dirname(__file__), "run")))
 
+log.info("--> controller is %s" % config['controller'])
+
 class Health(threading.Thread):
 
     def __init__(self):

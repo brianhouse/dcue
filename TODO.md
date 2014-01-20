@@ -1,6 +1,5 @@
-does the waiting in the playback thread affect sync?
 
-monit!
+does the waiting in the playback thread affect sync?
 
 /
 - cron ifup in case of wifi?
