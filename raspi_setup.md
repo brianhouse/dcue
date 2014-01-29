@@ -6,6 +6,21 @@
     sudo raspi-config
 make sure the time is EST
 
+### updates
+    sudo apt-get update
+    sudo apt-get upgrade
+
+### update firmware (radically improves sound quality, though not volume)    
+    # as described at http://dbader.org/blog/crackle-free-audio-on-the-raspberry-pi-with-mpd-and-pulseaudio
+    # referencing https://github.com/Hexxeh/rpi-update
+    sudo apt-get install git-core
+    sudo wget https://raw.github.com/Hexxeh/rpi-update/master/rpi-update -O /usr/bin/rpi-update
+    sudo chmod +x /usr/bin/rpi-update
+    sudo cp /boot/start.elf /boot/start.elf.knowngood       # backup existing
+    sudo BRANCH=next rpi-update                             # update it
+    sudo reboot
+    /opt/vc/bin/vcgencmd version                            # check firmware version
+
 ### network
     ifconfig
     sudo nano /etc/network/interfaces
@@ -28,15 +43,20 @@ make sure the time is EST
     sudo /etc/init.d/ntp status
     ntpq -c rl
 
-### remote
-    ssh pi@raspberrypi.local
-
-### hostname
+### hostname / remote
     sudo nano /etc/hosts
     sudo nano /etc/hostname
     sudo /etc/init.d/hostname.sh
     sudo reboot
 change raspberrypi references to desired
+
+    ssh pi@syncbox-two.local
+
+### sound
+    sudo nano /etc/modprobe.d/alsa-base.conf
+    options snd-usb-audio index=-2          # change to 0
+    sudo reboot
+    alsamixer
 
 ### python
     sudo apt-get install python3-setuptools
@@ -53,7 +73,4 @@ change raspberrypi references to desired
 see monitrc.smp
 
 ### notes
-
 from shawn -- disk will get corrupted after awhile, have to disable writes
-
-do we need an ifup in the cron?

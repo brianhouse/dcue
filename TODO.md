@@ -1,8 +1,3 @@
-
-does the waiting in the playback thread affect sync?
-
-/
-- cron ifup in case of wifi?
 - need human procedures! what to do if things go down, etc.
 - what other cues?
 
@@ -12,4 +7,3 @@ does the waiting in the playback thread affect sync?
 
 
 with a syncbox on wifi, sync is noticably worse. why?
-
