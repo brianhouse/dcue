@@ -55,6 +55,11 @@ change raspberrypi references to desired
 ### sound
     sudo nano /etc/modprobe.d/alsa-base.conf
     options snd-usb-audio index=-2          # change to 0
+
+    sudo nano /boot/cmdline.txt
+    dwc_otg.speed=1
+helps with noise
+
     sudo reboot
     alsamixer
 

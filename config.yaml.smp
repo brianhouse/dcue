@@ -1,8 +1,3 @@
 # naming scheme for syncboxes via physical location?
 
-
-controller: 192.168.2.1
-
 name: one
-
-health_rate: 5

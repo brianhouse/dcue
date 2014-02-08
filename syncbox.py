@@ -18,11 +18,13 @@ class Health(threading.Thread):
         self.start()        
 
     def run(self):
+        loaded = False
         while True:
             try:
                 status = self.queue.get_nowait()
+                loaded = True if status == 'loaded' else False
             except queue.Empty:
-                status = "ready"
+                status = "ready" if not loaded else "loaded"
             self.sender.send("/health", [config['name'], status])
             time.sleep(config['health_rate'])
 
@@ -50,25 +52,26 @@ class Player(threading.Thread):
                 self.process = subprocess.Popen([bn, path])
                 health.queue.put('playing')
                 while True:
-                    log.debug(self.process.poll())
+                    # log.debug(self.process.poll())
                     if self.process.poll() is None:
                         health.queue.put('playing')
                         time.sleep(config['health_rate'])
                     else:
+                        self.process = None
                         break                    
             except Exception as e:                
                 log.error(log.exc(e))
                 health.queue.put('playing failed')
 
     def stop(self):
-        # this is not strictly thread-safe, is it?
+        # this is not strictly thread-safe, is it? could poll and terminate collide?
         try:
             if self.process is not None:
                 self.process.terminate()
                 health.queue.put('stopped')
         except Exception as e:
             log.error(log.exc(e))
-            health.queue.put('stopped failed')
+            health.queue.put('stop failed')
 
 player = Player()
 
