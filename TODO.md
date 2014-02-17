@@ -1,5 +1,9 @@
-- need human procedures! what to do if things go down, etc.
-- what other cues?
+alsamixer needs to survive reboot
+img burn
+check long duration sync
+review wifi
+load all cues
+
 
 ### notes
 - remember that controller might have a different IP if being connected to via wifi as opposed to ethernet

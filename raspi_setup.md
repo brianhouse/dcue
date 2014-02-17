@@ -1,10 +1,15 @@
 
 ### login
-    pi:wavefarm
+    ssh raspberrypi.local
+    raspberry:pi
 
 ### config
     sudo raspi-config
 make sure the time is EST
+change password
+turn on ssh    
+turn off boot to desktop
+update raspi-config    
 
 ### updates
     sudo apt-get update
@@ -50,16 +55,11 @@ make sure the time is EST
     sudo reboot
 change raspberrypi references to desired
 
-    ssh pi@syncbox-two.local
+    ssh pi@syncbox-1.local
 
 ### sound
     sudo nano /etc/modprobe.d/alsa-base.conf
     options snd-usb-audio index=-2          # change to 0
-
-    sudo nano /boot/cmdline.txt
-    dwc_otg.speed=1
-helps with noise
-
     sudo reboot
     alsamixer
 

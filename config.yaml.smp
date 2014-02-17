@@ -1,3 +1,5 @@
 # naming scheme for syncboxes via physical location?
 
-name: one
+_remote: http://brianhouse.net/download/config.yaml
+
+name: syncbox-1
