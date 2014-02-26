@@ -68,14 +68,31 @@ change raspberrypi references to desired
     sudo easy_install3 pip
     sudo pip-3.2 install PyYAML
 
+### monit
+    sudo apt-get install monit
+see monitrc.smp
+
+### mpg123
+    sudo apt-get install mpg123
 
 ### testing with Granu
 - everything plugged into switch, set to dchp
 - share internet connection
 
-### monit
-    sudo apt-get install monit
-see monitrc.smp
+### shutdown, remember:
+    sudo shutdown -h now
+
 
 ### notes
 from shawn -- disk will get corrupted after awhile, have to disable writes
+
+create an image: http://smittytone.wordpress.com/2013/09/06/back-up-a-raspberry-pi-sd-card-using-a-mac/
+
+    # be sure you have the right disk!
+    diskutil list
+    diskutil unmountDisk /dev/disk1
+    sudo dd if=/dev/rdisk1 of=~/Desktop/pi.img bs=1m            # note the 'r' prefix
+
+
+locking:
+http://raspberrypi.stackexchange.com/questions/5112/running-on-read-only-sd-card

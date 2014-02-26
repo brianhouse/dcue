@@ -1,9 +1,10 @@
 ###
 #
-# chmod 0600 monitrc.smp
-# sudo chown root monitrc.smp
-# sudo cp monitrc.smp /etc/monit/monitrc
-# then set startup to 1 here: /etc/default/monit
+# cp monitrc.smp monit
+# chmod 0600 monitrc
+# sudo chown root monitrc
+# sudo mv monitrc /etc/monit/
+# then set START=yes here: /etc/default/monit
 # sudo service monit restart
 # sudo monit status
 #
