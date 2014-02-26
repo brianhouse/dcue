@@ -60,7 +60,7 @@ class Syncbox:
         if self.alive:
             return "%s(%s)" % (self.name, self.status)
         else:
-            return "%s(%f)*" % (self.name, time.time() - self.t)
+            return "%s(%f)*" % (self.name, time.time() - self.t)    # sometimes this will end up showing a smaller delay than health_rate
 
 
 class Expiry(threading.Thread):

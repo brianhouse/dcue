@@ -9,6 +9,6 @@ except IndexError:
     print("[track]")
     exit()
 
-cue = [[20.0, track]]
+cue = [[25.0, track]]
 
 osc.Sender(23232).send('/trigger', cue)

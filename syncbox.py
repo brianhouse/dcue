@@ -20,13 +20,18 @@ class Health(threading.Thread):
     def run(self):
         loaded = False
         while True:
-            try:
-                status = self.queue.get_nowait()
-                loaded = True if status == 'loaded' else False
-            except queue.Empty:
-                status = "ready" if not loaded else "loaded"
+            status = None
+            while True:
+                try:
+                    status = self.queue.get_nowait()
+                    loaded = True if status == 'loaded' else False
+                except queue.Empty:
+                    break
+            if status is None:
+                status = "ready" if not loaded else "loaded"                    
             self.sender.send("/health", [config['name'], status])
             time.sleep(config['health_rate'])
+
 
 health = Health()            
 
@@ -79,6 +84,8 @@ player = Player()
 timers = []
 def message_handler(ip, address, data):
     if address == '/cue':
+        for timer in timers:    # clears currently loaded cues
+            timer.cancel()
         try:
             ts = [float(d) for i, d in enumerate(data) if i % 2 == 0]
             ns = [       d for i, d in enumerate(data) if i % 2 == 1]
