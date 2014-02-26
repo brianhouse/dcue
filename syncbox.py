@@ -68,7 +68,7 @@ class Player(threading.Thread):
         try:
             if self.process is not None:
                 self.process.terminate()
-                health.queue.put('stopped')
+            health.queue.put('stopped')
         except Exception as e:
             log.error(log.exc(e))
             health.queue.put('stop failed')

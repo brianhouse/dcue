@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import time, threading
+import time, threading, natsort
 from housepy import osc, util, log, config
 
 osc.verbose = False
@@ -28,7 +28,8 @@ class Syncbox:
                 return syncbox
         syncbox = Syncbox(name, ip)
         cls.boxes.append(syncbox)
-        cls.boxes.sort(key=lambda box: box.name)
+        cls.boxes = natsort.natsorted(cls.boxes, key=lambda box: box.name)
+        cls.boxes.reverse()
         return syncbox
 
     @classmethod
